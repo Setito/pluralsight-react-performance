@@ -1,4 +1,4 @@
-Module 3, video 3
+Module 3, video 3 (simple components)
 
 Aca lo que esta pasando es que si prendes el profiler de React en el navegador, le das al boton de record y 
 arrastras cualquiera de las cards, pasa que se renderiza el componente App y ademas todos sus children, incluido el 
@@ -22,3 +22,17 @@ Lo que hizo fue, usar useCallback, muy parecido a useEffect, agregando la llamad
 el boton ya no vuelve a re renderizarse!
 Para comprobarlo hay que apretar el boton de record en el profiler, arrastrar una card, detener el record y ver como 
 el componente AddButton aparece en gris.
+
+
+Module 3, video 4 (function components)
+
+First of all, we convert the AddButton from a class component to a function component.
+Lo que hay que hacer es llamar a la function React.memo que como primer parametro recibe un functional component, y
+ademas tiene la opcion de pasarle un segundo parametro tal cual hacemos en useCallback o useEffect. En este caso este
+segundo parametro lo dejamos como esta.
+Como la funcion onClick que le pasamos al AddButton en sus props es siempre la misma (porque estamos usando el 
+useCallback en App.js) entonces AddButton no va a volver a renderizarse.
+
+
+Module 3, video 5 (complex props)
+
