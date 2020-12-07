@@ -1,0 +1,24 @@
+Module 3, video 3
+
+Aca lo que esta pasando es que si prendes el profiler de React en el navegador, le das al boton de record y 
+arrastras cualquiera de las cards, pasa que se renderiza el componente App y ademas todos sus children, incluido el 
+boton de Add.
+Lo que se hizo aca entonces fue cambiar la implementacion del AddButton para que en lugar de extender a React.Component
+extienda a React.PureComponent.
+
+"PureComponent is exactly the same as Component except that it handles the shouldComponentUpdate method for you. 
+When props or state changes, PureComponent will do a shallow comparison on both props and state. 
+Component on the other hand won't compare current props and state to next out of the box."
+
+Basicamente, como en AddButton no cambio ninguna prop o state, lo cambiamos a PureComponent asi React hace una
+comparacion y decide si hay que re renderizar o no.
+
+El siguiente paso es probarlo, y veriamos que a pesar de esto el boton se sigue re renderizando junto con todos los
+demas componentes.
+El problema es que dentro del evento onClick, teniamos asignada una funcion (la que actualizaba el state isAddOpen),
+y esa funcion se crea cada vez por lo que a pesar de que hagan lo mismo, dos instancias de esa funcion siguen siendo
+diferentes, y por eso re renderiza.
+Lo que hizo fue, usar useCallback, muy parecido a useEffect, agregando la llamada al hook ahi dentro y de esta manera
+el boton ya no vuelve a re renderizarse!
+Para comprobarlo hay que apretar el boton de record en el profiler, arrastrar una card, detener el record y ver como 
+el componente AddButton aparece en gris.
