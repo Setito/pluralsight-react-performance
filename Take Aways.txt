@@ -36,3 +36,52 @@ useCallback en App.js) entonces AddButton no va a volver a renderizarse.
 
 Module 3, video 5 (complex props)
 
+Here, we will focus on the summary at the right top of the screen.
+If I start the profiler and drag a card, the summary is re rendering even though any
+of its data has updated.
+The summary is a class component. Previously we worked with a Pure component, in that
+case the references to its props are being compared to figure out if the component
+needs to re-render.
+Anyway, there is a more specific method when working with class components.
+We will implement the shouldComponentUpdate, that returns a boolean. If true, then
+the component re-render, if false it won't.
+
+Ahora, no va a funcionar asi nomas.
+Si doy doble click sobre una card, esta se borra pero el Summary no se esta updateando.
+Esto es porque en el App.js estamos trabajando con un estado que no es immutable.
+Entonces al borrar, cuando checkeo los lenght en el shouldComponentUpdate, siempre me
+da que son iguales. 
+Tenemos que crear nuevas instancias del state y no trabajar siempre con la misma.
+The same principle has been applied at the addCard function.
+La leccion a aprender aca es, que cuando estamos usando Pure components,
+shouldComponentUpdate o React.memo, tenemos que siempre ser capaces de comparar objetos.
+Por lo tanto tenemos que asegurarnos de que no estamos mutando data.
+
+Cambiamos el Summary para que sea un function component y uso React.memo.
+React.memo recibe una funcion y puede ademas recibir un segundo parametro que es lo que
+vamos a usar para comparar si el estado esta cambiando o no.
+
+
+Module 3, video 6 (working with repeated components)
+
+Si movemos una de las cards, vamos a notar en el profiler que todas estan re renderizando...
+Primero vamos a actualizar el card component para que sea un function component en lugar
+de ser un class component.
+Finalmente, como segundo parametro de React.memo, agregamos una funcion que compare
+dos cards. Si tiene el mismo id, y la posicion con respecto a left y top son iguales,
+entonces la card nunca cambio y no hay necesidad de re renderizar.
+
+
+Module 3 - Final Summary
+
+Cuando tenemos un class component, podemos usar PureComponent para hacer reference
+checking in the props. Osea, que si el component recibe los mismos props, entonces no
+va a renderizar.
+Si tengo un class component pero quiero hacer un check mas especifico, entonces puedo
+usar shouldComponentUpdate.
+Si tengo un function component, puedo usar React.memo en donde puedo declarar una
+funcion que va a determinar si el component tiene que re renderizar o no. Si retorna
+true, el componente no necesita renderizar, si false, renderizar.
+
+
+Module 4 - video 1
